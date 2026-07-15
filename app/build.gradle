@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Release-Signierung für GitHub Actions oder lokale Builds.
+// Die Werte werden bewusst nicht im Projekt gespeichert, sondern über Umgebungsvariablen
+// oder Gradle Properties übergeben.
+def envOrProperty = { String name ->
+    def value = System.getenv(name)
+    if (value == null || value.toString().trim().isEmpty()) {
+        value = project.findProperty(name)
+    }
+    return value
+}
+
+def releaseKeystoreFile = envOrProperty('ANDROID_KEYSTORE_FILE')
+def releaseKeystorePassword = envOrProperty('ANDROID_KEYSTORE_PASSWORD')
+def releaseKeyAlias = envOrProperty('ANDROID_KEY_ALIAS')
+def releaseKeyPassword = envOrProperty('ANDROID_KEY_PASSWORD')
+def hasReleaseSigning = [releaseKeystoreFile, releaseKeystorePassword, releaseKeyAlias, releaseKeyPassword]
+        .every { it != null && !it.toString().trim().isEmpty() }
+
+android {
+    namespace 'com.notfallkompass.risikoanalyse'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.notfallkompass.risikoanalyse'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0'
+    }
+
+    if (hasReleaseSigning) {
+        signingConfigs {
+            release {
+                storeFile file(releaseKeystoreFile.toString())
+                storePassword releaseKeystorePassword.toString()
+                keyAlias releaseKeyAlias.toString()
+                keyPassword releaseKeyPassword.toString()
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
