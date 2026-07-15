@@ -24,14 +24,16 @@ jobs:
       - name: Android SDK einrichten
         uses: android-actions/setup-android@v3
 
-      - name: Gradle ausführbar machen
-        run: chmod +x ./gradlew
+      - name: Gradle einrichten
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
 
       - name: Debug APK bauen
-        run: ./gradlew :app:assembleDebug
+        run: gradle :app:assembleDebug
 
       - name: Release AAB bauen
-        run: ./gradlew :app:bundleRelease
+        run: gradle :app:bundleRelease
 
       - name: Dateien sammeln
         run: |
