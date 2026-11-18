@@ -1,5 +1,5 @@
 // Netz zuerst, bei fehlender Verbindung aus dem Cache (Offline-Nutzung).
-const CACHE = 'risikoanalyse-v2';
+const CACHE = 'risikoanalyse-v3';
 const FILES = ['./', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

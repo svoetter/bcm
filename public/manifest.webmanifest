@@ -1,14 +1,14 @@
 {
-  "name": "Risikoanalyse für Unternehmen",
+  "name": "Risikoanalyse Unternehmen",
   "short_name": "Risikoanalyse",
-  "description": "Risikomatrix mit 20 vorgegebenen Feldern, Maßnahmen und PDF-Ausgabe.",
+  "description": "Risikomatrix mit vorgegebenen Feldern, Maßnahmen und PDF-Ausgabe.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#FAFAFA",
-  "theme_color": "#F97316",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7030A0",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

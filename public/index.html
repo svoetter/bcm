@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Risikoanalyse für Unternehmen</title>
+<title>Risikoanalyse Unternehmen</title>
 <meta name="description" content="Risikomatrix für Unternehmen (BCM): 20 vorgegebene Risikofelder, eigene Risiken, Maßnahmen und PDF-Export. Daten bleiben lokal im Browser.">
-<meta name="theme-color" content="#F97316">
+<meta name="theme-color" content="#7030A0">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
@@ -18,202 +18,153 @@
 <meta property="og:locale" content="de_AT">
 <meta property="og:site_name" content="Risikoanalyse">
 <meta property="og:url" content="https://bcm.voetter.work/">
-<meta property="og:title" content="Risikoanalyse für Unternehmen">
-<meta property="og:description" content="Risikomatrix mit 20 vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben. Kostenlos, ohne Anmeldung – die Daten bleiben am Gerät.">
+<meta property="og:title" content="Risikoanalyse Unternehmen">
+<meta property="og:description" content="Risikomatrix mit vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben. Kostenlos, ohne Anmeldung – die Daten bleiben am Gerät.">
 <meta property="og:image" content="https://bcm.voetter.work/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Logo und Risikomatrix der Risikoanalyse für Unternehmen">
+<meta property="og:image:alt" content="Logo und Risikomatrix der Risikoanalyse Unternehmen">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Risikoanalyse für Unternehmen">
-<meta name="twitter:description" content="Risikomatrix mit 20 vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben.">
+<meta name="twitter:title" content="Risikoanalyse Unternehmen">
+<meta name="twitter:description" content="Risikomatrix mit vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben.">
 <meta name="twitter:image" content="https://bcm.voetter.work/og.png">
 <style>
-:root{
-  --orange:#F97316;--orange-soft:#FFEDD5;--grey:#E5E7EB;--grey-soft:#F3F4F6;
-  --text:#111827;--muted:#4B5563;--line:#D1D5DB;--bg:#FAFAFA;--panel:#fff;
-}
+:root{--purple:#7030A0;--purple-d:#5B2585;--purple-soft:#F1E8F8;--grey:#E5E7EB;--grey-soft:#F3F4F6;
+  --text:#111827;--muted:#4B5563;--line:#A3A3A3;--bg:#F5F5F5;--panel:#fff;--lab:clamp(54px,15vw,150px)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);
-  font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font:15px/1.4 Calibri,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-.wrap{max-width:1320px;margin:0 auto;padding:14px}
-header.top{background:var(--panel);border-radius:18px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
-header.top h1{font-size:22px;line-height:1.2;margin:0}
-header.top p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
-.head-text{flex:1 1 240px;min-width:0}
-.logo{width:48px;height:48px;border-radius:12px;flex:none}
-.badges{display:flex;gap:8px;flex-wrap:wrap}
-.badge{border-radius:999px;padding:6px 12px;font-weight:700;font-size:13.5px;background:var(--grey-soft);white-space:nowrap}
-.badge.o{background:var(--orange-soft);color:#C2410C}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
+.wrap{max-width:1180px;margin:0 auto;padding:10px 10px 24px}
 button{font:inherit;color:inherit;cursor:pointer}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 14px;font-weight:600;min-height:44px}
+.toolbar{display:flex;gap:8px;position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -10px;padding:8px 10px}
+.btn{border:1px solid #D1D5DB;background:var(--panel);border-radius:12px;padding:10px 14px;font-weight:600;min-height:46px;white-space:nowrap}
 .btn:hover{background:var(--grey-soft)}
-.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}
-.btn.primary:hover{background:#EA580C}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn.primary:hover{background:var(--purple-d)}
 .btn.danger{color:#B91C1C;border-color:#FCA5A5}
-.hint{color:#6B7280;font-size:13px;margin:4px 2px 10px}
-.scroller{overflow-x:auto;border-radius:18px;background:var(--panel);-webkit-overflow-scrolling:touch}
-.matrix{display:grid;grid-template-columns:150px repeat(5,minmax(158px,1fr));gap:8px;padding:10px;min-width:980px}
-.corner,.ph,.ih{background:var(--grey-soft);border-radius:14px;padding:8px 10px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
-.corner{background:transparent;font-size:12px;color:var(--muted);font-weight:600;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
-.ph .ic,.ih .ic{font-size:20px;flex:none}
-.ih{position:sticky;left:10px;z-index:2;align-items:flex-start;box-shadow:6px 0 8px -6px rgba(0,0,0,.12)}
-.corner{position:sticky;left:10px;z-index:2;background:var(--panel)}
-.cell{border:2px solid var(--line);border-radius:14px;min-height:118px;padding:6px;display:flex;flex-direction:column;gap:5px;background:#fff}
-.cell.over{border-color:var(--orange);background:#FFF7ED}
-.add{flex:1;min-height:32px;border:0;background:transparent;color:#9CA3AF;font-size:18px;border-radius:10px}
-.add:hover,.add:focus-visible{background:var(--grey-soft);color:var(--text)}
-.card{display:grid;grid-template-columns:34px 1fr;gap:4px 8px;align-items:center;text-align:left;width:100%;
-  border:2px solid #9CA3AF;background:var(--grey);border-radius:12px;padding:7px 8px;touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.card.ws{border:3px solid var(--orange);background:var(--orange-soft)}
-.card .ic{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:19px}
-.card .t{font-weight:700;font-size:13px;line-height:1.2;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
-.card .m{grid-column:1/-1;font-size:11px;color:var(--muted)}
-.card.done{opacity:.6}
-.card.lift{opacity:.35}
-.ghost{position:fixed;z-index:50;pointer-events:none;width:170px;box-shadow:0 10px 24px rgba(0,0,0,.25);transform:translate(-50%,-50%) rotate(-2deg)}
-.legend{background:var(--panel);border-radius:18px;padding:12px 18px;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;font-size:13.5px}
-.legend b{font-size:15px}
-.sw{display:inline-block;width:30px;height:20px;border-radius:7px;border:2px solid #9CA3AF;background:var(--grey);vertical-align:-5px;margin-right:6px}
-.sw.o{border-color:var(--orange);background:var(--orange-soft)}
-.legend .stats{flex-basis:100%;color:var(--muted);font-size:13px}
-footer{color:var(--muted);font-size:12.5px;margin:16px 4px 8px;line-height:1.6}
+.short{display:none}
+.hint{color:#6B7280;font-size:13px;margin:2px 2px 8px}
+/* ---- Blatt wie in der Vorlage ---- */
+.sheet{background:var(--panel);padding:clamp(8px,2.4vw,28px);padding-top:clamp(10px,2vw,22px)}
+.sheet-head{position:relative;text-align:center;padding:0 clamp(46px,11vw,120px);margin-bottom:clamp(8px,2vw,22px);min-height:clamp(40px,10vw,96px)}
+.sheet-head h1{font-weight:400;font-size:clamp(17px,4.4vw,40px);line-height:1.15;margin:0}
+.sheet-head .sub{font-size:clamp(11px,2.7vw,23px);margin:2px 0 0;line-height:1.2}
+.sheet-head .note{font-size:clamp(8.5px,1.9vw,15px);margin:2px 0 0;line-height:1.2}
+.logo{position:absolute;right:0;top:0;width:clamp(40px,10vw,96px);height:auto;border-radius:22%}
+.matrix{display:grid;grid-template-columns:var(--lab) repeat(5,minmax(0,1fr))}
+.ih{display:flex;align-items:center;justify-content:center;text-align:center;padding:2px clamp(2px,1vw,12px);
+  font-size:clamp(8.5px,2.1vw,13.5px);line-height:1.25;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere}
+.ph{text-align:center;padding:clamp(4px,1.2vw,12px) 1px 0;font-size:clamp(8.5px,2.1vw,13.5px);line-height:1.2;hyphens:auto;-webkit-hyphens:auto}
+.cell{border:1px solid var(--line);margin:0 -1px -1px 0;min-height:clamp(84px,17vw,122px);padding:clamp(4px,1vw,10px) clamp(2px,.6vw,8px);
+  display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:clamp(4px,1vw,10px);background:#fff}
+.cell.over{background:var(--purple-soft);box-shadow:inset 0 0 0 2px var(--purple)}
+.add{flex:1;border:0;background:transparent;color:transparent;font-size:20px;min-height:44px}
+.cell:has(.card) .add{display:none}
+.add:hover,.add:focus-visible{color:#9CA3AF;background:var(--grey-soft)}
+@media (hover:none){.add{color:#D4D4D4}}
+.card{display:flex;flex-direction:column;align-items:center;gap:clamp(3px,.8vw,7px);width:100%;border:0;background:transparent;padding:2px 0;
+  touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;border-radius:8px}
+.card:hover{background:var(--purple-soft)}
+.card .t{font-size:clamp(9px,2.3vw,14px);line-height:1.2;text-align:center;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere;max-width:100%}
+.card .dot{width:clamp(16px,4vw,26px);height:clamp(16px,4vw,26px);border-radius:50%;background:var(--purple);flex:none}
+.card.done .dot{background:#fff;box-shadow:inset 0 0 0 3px var(--purple)}
+.card.done .t{color:#6B7280}
+.card.lift{opacity:.3}
+.ghost{position:fixed;z-index:50;pointer-events:none;width:110px;background:#fff;padding:8px 6px;box-shadow:0 10px 24px rgba(0,0,0,.28);transform:translate(-50%,-60%) rotate(-2deg)}
+.ghost .t{font-size:12px}.ghost .dot{width:24px;height:24px}
+.stats{color:var(--muted);font-size:13px;margin:10px 2px 0}
+/* ---- Liste ---- */
+.listhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 2px 8px;flex-wrap:wrap}
+.listhead h2{font-size:17px;margin:0}
+.filters{display:flex;gap:6px}
+.chip{border:1px solid #D1D5DB;background:var(--panel);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;min-height:36px}
+.chip.on{background:var(--text);border-color:var(--text);color:#fff}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px}
+.li{display:grid;grid-template-columns:22px 1fr auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--panel);
+  border:1px solid var(--grey);border-radius:12px;padding:9px 10px;min-height:56px}
+.li.done{opacity:.65}
+.li .dot{grid-row:1/3;width:20px;height:20px;border-radius:50%;background:var(--purple)}
+.li.done .dot{background:#fff;box-shadow:inset 0 0 0 3px var(--purple)}
+.li .t{font-weight:700;font-size:14.5px;line-height:1.25;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere}
+.li .m{grid-column:2;font-size:12px;color:var(--muted)}
+.li .st{grid-row:1/3;grid-column:3;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 8px;background:var(--grey-soft);white-space:nowrap}
+.li .st.s1{background:#DBEAFE;color:#1E40AF}.li .st.s2{background:#DCFCE7;color:#166534}
+.empty{color:var(--muted);font-size:13.5px;padding:10px 4px}
+footer{color:var(--muted);font-size:12.5px;margin:18px 4px 8px;line-height:1.6}
 footer a{color:inherit}
+/* ---- Dialog ---- */
 dialog{border:0;border-radius:18px;padding:0;width:min(560px,calc(100vw - 20px));max-height:calc(100dvh - 20px);color:var(--text)}
 dialog::backdrop{background:rgba(17,24,39,.5)}
 dialog form{display:flex;flex-direction:column;max-height:calc(100dvh - 20px)}
 dialog h2{margin:0;padding:16px 18px 6px;font-size:19px}
 .fields{padding:0 18px 8px;overflow-y:auto}
 label{display:block;font-weight:700;font-size:13px;color:#374151;margin:10px 0 4px}
-input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:10px;border:1px solid #D1D5DB;border-radius:10px;background:#fff;color:var(--text)}
 textarea{resize:vertical}
 .chk{display:flex;gap:10px;align-items:center;font-weight:600;margin:14px 0 4px}
-.chk input{width:22px;height:22px;accent-color:var(--orange);flex:none}
+.chk input{width:22px;height:22px;accent-color:var(--purple);flex:none}
 .actions{display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--grey);flex-wrap:wrap}
 .actions .sp{flex:1}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;max-width:90vw}
 .toast.show{opacity:1}
 :focus-visible{outline:3px solid #2563EB;outline-offset:2px}
-.short{display:none}
-.listsec{display:none}
-.listhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 2px 8px}
-.listhead h2{font-size:16px;margin:0}
-.filters{display:flex;gap:6px}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;min-height:36px}
-.chip.on{background:var(--text);border-color:var(--text);color:#fff}
-.li{display:grid;grid-template-columns:40px 1fr auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--panel);
-  border:1px solid var(--grey);border-left:5px solid #9CA3AF;border-radius:12px;padding:9px 10px;margin-bottom:6px;min-height:56px}
-.li.ws{border-left-color:var(--orange)}
-.li.done{opacity:.6}
-.li .ic{grid-row:1/3;width:40px;height:40px;border-radius:50%;background:var(--grey-soft);display:grid;place-items:center;font-size:21px}
-.li.ws .ic{background:var(--orange-soft)}
-.li .t{font-weight:700;font-size:14.5px;line-height:1.25;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere}
-.li .m{grid-column:2;font-size:12px;color:var(--muted)}
-.li .st{grid-row:1/3;grid-column:3;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 8px;background:var(--grey-soft);white-space:nowrap}
-.li .st.s1{background:#DBEAFE;color:#1E40AF}.li .st.s2{background:#DCFCE7;color:#166534}
-.empty{color:var(--muted);font-size:13.5px;padding:10px 4px}
 @media (max-width:720px){
-  body{font-size:15px}
-  .wrap{padding:8px 8px 24px}
-  header.top{padding:12px;gap:8px 12px;border-radius:14px}
-  header.top h1{font-size:18px}
-  header.top p{display:none}
-  .logo{width:42px;height:42px}
-  .badges{flex-basis:100%}
-  .badge{font-size:12.5px;padding:5px 10px}
+  .wrap{padding:0 6px 24px}
   .full{display:none}.short{display:inline}
-  .toolbar{position:sticky;top:0;z-index:5;background:var(--bg);margin:6px -8px 0;padding:8px;flex-wrap:nowrap}
-  .toolbar .btn{flex:1 1 0;padding:10px 6px;font-size:14px;white-space:nowrap;min-height:46px}
-  .hint{font-size:12.5px;margin:2px 2px 8px}
-  .scroller{overflow:visible;border-radius:14px}
-  .matrix{grid-template-columns:repeat(5,minmax(0,1fr));min-width:0;gap:4px;padding:6px}
-  .corner{display:none}
-  .ph{flex-direction:column;gap:1px;padding:5px 1px;font-size:10px;line-height:1.15;text-align:center;border-radius:10px;justify-content:center}
-  .ph .ic{font-size:16px}
-  .ih{grid-column:1/-1;position:static;box-shadow:none;align-items:center;background:transparent;padding:6px 4px 0;font-size:12.5px;border-radius:0}
-  .ih .ic{font-size:15px}
-  .cell{min-height:58px;padding:4px 2px;flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:center;gap:4px;border-width:1.5px;border-radius:10px}
-  .cell:has(.card) .add{display:none}
-  .add{min-height:44px;width:100%;font-size:16px}
-  .card{display:block;width:44px;height:44px;padding:0;border-radius:50%;border-width:2px;flex:none}
-  .card.ws{border-width:2.5px}
-  .card .ic{width:100%;height:100%;background:transparent;font-size:22px}
-  .card .t,.card .m{display:none}
-  .ghost{width:60px;height:60px}
-  .ghost .ic{font-size:30px}
-  .listsec{display:block}
-  .legend{padding:10px 12px;border-radius:14px;font-size:12.5px;gap:6px 14px}
+  .toolbar{margin:0 -6px;padding:8px 6px}
+  .toolbar .btn{flex:1 1 0;padding:10px 6px;font-size:14px}
+  .hint{font-size:12.5px}
+  .sheet{margin:0 -6px}
+  #list{grid-template-columns:1fr}
   dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:94dvh}
   dialog form{max-height:94dvh}
   .actions{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
-  .actions .btn{flex:1 1 auto}
-  .actions .sp{display:none}
+  .actions .btn{flex:1 1 auto}.actions .sp{display:none}
   .toast{bottom:calc(18px + env(safe-area-inset-bottom))}
 }
-@media (max-width:360px){.card{width:38px;height:38px}.card .ic{font-size:19px}.ph{font-size:9px}}
 @page{size:A4 landscape;margin:8mm}
 @media print{
-  body{background:#fff;font-size:10px}
-  .toolbar,.hint,.add,footer,.toast,.listsec,.logo{display:none!important}
+  body{background:#fff}
+  .toolbar,.hint,.add,footer,.toast,.listsec,.stats{display:none!important}
   .wrap{max-width:none;padding:0}
-  header.top{padding:0 0 6px}
-  header.top h1{font-size:18px}
-  .scroller{overflow:visible}
-  .matrix{min-width:0;grid-template-columns:105px repeat(5,1fr);gap:4px;padding:0}
-  .ih,.corner{position:static;box-shadow:none}
-  .cell{min-height:96px;padding:4px;border-width:1px;break-inside:avoid}
-  .card{padding:4px 5px;grid-template-columns:24px 1fr}
-  .card .ic{width:24px;height:24px;font-size:14px}
-  .card .t{font-size:10px}.card .m{font-size:8px}
-  .ph,.ih{font-size:10px;padding:5px}
-  .legend{padding:6px 0;margin-top:6px;font-size:10px}
+  .sheet{padding:0}
+  .cell{min-height:33mm;break-inside:avoid}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <img class="logo" src="icon.svg" width="48" height="48" alt="Logo Risikoanalyse">
-    <div class="head-text">
-      <h1>Risikoanalyse für Unternehmen</h1>
-      <p>Risikomatrix mit 20 vorgegebenen Feldern – antippen, bewerten, verschieben, Maßnahmen festlegen.</p>
-    </div>
-    <div class="badges">
-      <span class="badge" id="bTotal">Risiken 0</span>
-      <span class="badge o" id="bOrange">Orange 0</span>
-    </div>
-  </header>
-
   <div class="toolbar">
     <button class="btn primary" id="btnAdd" type="button">+ Risiko</button>
     <button class="btn" id="btnPdf" type="button"><span class="full">A4-PDF / Drucken</span><span class="short">PDF</span></button>
     <button class="btn" id="btnReset" type="button"><span class="full">Vorlage wiederherstellen</span><span class="short">Zurücksetzen</span></button>
   </div>
-  <p class="hint"><span class="full">Feld antippen zum Bearbeiten. Mit der Maus ziehen, um ein Risiko zu verschieben.</span><span class="short">Symbol antippen zum Bearbeiten. Gedrückt halten und ziehen zum Verschieben.</span></p>
 
-  <div class="scroller"><div class="matrix" id="matrix"></div></div>
+  <main class="sheet">
+    <div class="sheet-head">
+      <h1>Risikoanalyse Unternehmen</h1>
+      <p class="sub">Auswirkungen auf Unternehmen 1 – 5 Jahren</p>
+      <p class="note">* Diese Matrix ist eine beispielhafte Darstellung*</p>
+      <img class="logo" src="icon.svg" width="96" height="96" alt="Logo Risikoanalyse">
+    </div>
+    <div class="matrix" id="matrix"></div>
+  </main>
+  <p class="stats" id="stats"></p>
+  <p class="hint">Risiko antippen zum Bearbeiten. <span class="full">Mit der Maus ziehen, um es in ein anderes Feld zu verschieben.</span><span class="short">Gedrückt halten und ziehen zum Verschieben. Im Querformat wird die Matrix größer.</span></p>
 
   <section class="listsec" aria-label="Risikoliste">
     <div class="listhead">
       <h2>Risikoliste</h2>
       <div class="filters" id="filters">
         <button type="button" class="chip on" data-f="all">Alle</button>
-        <button type="button" class="chip" data-f="ws">Orange</button>
+        <button type="button" class="chip" data-f="ws">Arbeitnehmerschutz</button>
         <button type="button" class="chip" data-f="open">Offen</button>
       </div>
     </div>
     <div id="list"></div>
-  </section>
-
-  <section class="legend" aria-label="Legende">
-    <b>Legende</b>
-    <span><i class="sw o"></i>Orange: Arbeitnehmerschutz / Verstoß gegen Vorschriften</span>
-    <span><i class="sw"></i>Grau: andere Unternehmensrisiken</span>
-    <span class="stats" id="stats"></span>
   </section>
 
   <footer>
@@ -232,9 +183,7 @@ textarea{resize:vertical}
       <select id="fImpact"></select>
       <label for="fProb">Eintrittswahrscheinlichkeit / Aktualität</label>
       <select id="fProb"></select>
-      <label for="fIcon">Symbol</label>
-      <select id="fIcon"></select>
-      <label class="chk"><input type="checkbox" id="fWs"> Arbeitnehmerschutz / Vorschriften: Orange hinterlegen</label>
+      <label class="chk"><input type="checkbox" id="fWs"> Arbeitnehmerschutz / Vorschriften</label>
       <label for="fDesc">Beschreibung</label>
       <textarea id="fDesc" rows="3"></textarea>
       <label for="fOwner">Verantwortlich</label>
@@ -259,22 +208,16 @@ textarea{resize:vertical}
 <script>
 (function(){
 'use strict';
-var KEY='risikoanalyse_risks_v1';
-var IMPACT=['Gefährdung für das Gesamtsystem','Gefahr für das Teilsystem','Signifikante Wirkung im Teilsystem','Schwache bzw. indirekte Wirkung über andere Risiken'];
-var IMPACT_IC=['🌍','🧩','🛡️','〰️'];
+var KEY='risikoanalyse_risks_v2';
+var IMPACT=['Gefährdung für Gesamtsystem','Gefahr für Teilsystem','Signifikante Wirkung im Teilsystem','Schwache bzw. indirekte Wirkung über andere Risiken'];
 var PROB=['erkannt','möglich','wahrscheinlich','sehr wahrscheinlich','aktuell'];
-var PROB_S=['erkannt','möglich','wahr­scheinl.','sehr wahr­scheinl.','aktuell'];
 var IMPACT_S=['Gesamtsystem','Teilsystem','signifikant','schwach'];
-var PROB_IC=['👁️','❓','🎯','❗','⏱️'];
 var STATUS=['offen','in Arbeit','erledigt'];
-var ICONS=[['🌪️','Natur / Krise'],['⚡','Blackout'],['🛡️','Reserve / Schutz'],['☁️','Digitale Infrastruktur'],['🔐','Cyber / Daten'],['⚖️','Vorschriften'],['📦','Lieferkette'],['🧑‍💼','Schlüsselkräfte'],['👥','Team / Fachkräfte'],['🧾','Forderungsausfall'],['⛑️','Tödlicher Arbeitsunfall'],['🩹','Arbeitsunfall'],['✋','Übergriff / Gewalt'],['🧠','Psychosoziale Krise'],['📈','Marktveränderung'],['⚙️','Anlage / Betrieb'],['📉','Marktrückgang'],['🚑','Medizinischer Notfall'],['🤝','Verlust / Krise'],['🔋','Motivation'],['⚠️','Allgemeines Risiko']];
 
 function defaults(){
   var d=[
   ['r01','Naturkatastrophen / Krieg',0,0,'🌪️',false,'Externe Lage mit möglicher Wirkung auf Standort, Lieferfähigkeit und Geschäftsbetrieb.'],
-  ['r02','Blackout / Strommangellage',0,1,'⚡',false,'Stromausfall oder Energiemangel mit Auswirkung auf kritische Prozesse.'],
-  ['r03','Reserve / strategische Ausfälle',0,2,'🛡️',false,'Fehlende Redundanz, Ersatzressourcen oder strategische Alternativen.'],
-  ['r04','Kritische Störung digitaler Infrastruktur',0,3,'☁️',false,'Ausfall zentraler Systeme, Netzwerke, Cloud- oder Kommunikationsdienste.'],
+  ['r02','Blackout Strommangellage',0,1,'⚡',false,'Stromausfall oder Energiemangel mit Auswirkung auf kritische Prozesse.'],
   ['r05','Cyberangriff / Datenverlust',0,4,'🔐',false,'Angriff, Verschlüsselung, Datenabfluss oder Verlust geschäftskritischer Daten.'],
   ['r06','Verstoß gegen Vorschriften',1,0,'⚖️',true,'Rechtliche oder organisatorische Nichteinhaltung, inklusive Arbeitnehmerschutz-Vorgaben.'],
   ['r07','Lieferkettenunterbrechung',1,1,'📦',false,'Ausfall von Lieferanten, Material, Logistik oder externen Partnern.'],
@@ -310,10 +253,8 @@ function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cl
 
 function render(){
   matrix.textContent='';
-  var c=el('div','corner');c.appendChild(el('span',null,'Wahrscheinlichkeit →'));c.appendChild(el('span',null,'Auswirkung ↓'));matrix.appendChild(c);
-  PROB.forEach(function(p,i){var h=el('div','ph');h.appendChild(el('span','ic',PROB_IC[i]));h.appendChild(el('span','full',p));h.appendChild(el('span','short',PROB_S[i]));matrix.appendChild(h);});
   for(var r=0;r<4;r++){
-    var ih=el('div','ih');ih.appendChild(el('span','ic',IMPACT_IC[r]));ih.appendChild(el('span',null,IMPACT[r]));matrix.appendChild(ih);
+    matrix.appendChild(el('div','ih',IMPACT[r]));
     for(var col=0;col<5;col++){
       var cell=el('div','cell');cell.dataset.row=r;cell.dataset.col=col;
       risks.forEach(function(k){if(k.impactIndex===r&&k.probabilityIndex===col)cell.appendChild(card(k));});
@@ -323,11 +264,11 @@ function render(){
       matrix.appendChild(cell);
     }
   }
-  var ws=0,crit=0,open=0;
-  risks.forEach(function(k){if(k.workerSafety)ws++;if(k.impactIndex<=1&&k.probabilityIndex>=2)crit++;if(k.status!=='erledigt')open++;});
-  $('bTotal').textContent='Risiken '+risks.length;
-  $('bOrange').textContent='Orange '+ws;
-  $('stats').textContent='Kritische Felder: '+crit+' · offene Maßnahmen: '+open;
+  matrix.appendChild(el('div'));
+  PROB.forEach(function(p){matrix.appendChild(el('div','ph',p));});
+  var crit=0,open=0;
+  risks.forEach(function(k){if(k.impactIndex<=1&&k.probabilityIndex>=2)crit++;if(k.status!=='erledigt')open++;});
+  $('stats').textContent='Risiken: '+risks.length+' · kritische Felder: '+crit+' · offene Maßnahmen: '+open;
   renderList();
 }
 var filter='all';
@@ -337,11 +278,11 @@ function renderList(){
   items.sort(function(a,b){return (4-b.impactIndex)*(b.probabilityIndex+1)-(4-a.impactIndex)*(a.probabilityIndex+1);});
   if(!items.length){list.appendChild(el('p','empty','Keine Risiken in dieser Auswahl.'));return;}
   items.forEach(function(k){
-    var b=el('button','li'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));b.type='button';b.dataset.id=k.id;
-    b.appendChild(el('span','ic',k.icon||'⚠️'));
+    var b=el('button','li'+(k.status==='erledigt'?' done':''));b.type='button';b.dataset.id=k.id;
+    b.appendChild(el('span','dot'));
     b.appendChild(el('span','t',k.title));
     b.appendChild(el('span','st s'+Math.max(0,STATUS.indexOf(k.status)),k.status||'offen'));
-    b.appendChild(el('span','m',IMPACT_S[k.impactIndex]+' · '+PROB[k.probabilityIndex]+(k.due?' · bis '+k.due:'')));
+    b.appendChild(el('span','m',IMPACT_S[k.impactIndex]+' · '+PROB[k.probabilityIndex]+(k.workerSafety?' · Arbeitnehmerschutz':'')+(k.due?' · bis '+k.due:'')));
     list.appendChild(b);
   });
 }
@@ -351,11 +292,10 @@ $('filters').addEventListener('click',function(e){
   Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('on',x===c);});renderList();
 });
 function card(k){
-  var b=el('button','card'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));
-  b.type='button';b.dataset.id=k.id;b.title=k.title;b.setAttribute('aria-label',k.title);
-  b.appendChild(el('span','ic',k.icon||'⚠️'));
+  var b=el('button','card'+(k.status==='erledigt'?' done':''));
+  b.type='button';b.dataset.id=k.id;
   b.appendChild(el('span','t',k.title));
-  b.appendChild(el('span','m',(k.workerSafety?'Arbeitnehmerschutz':'Unternehmen')+' · '+(k.status||'offen')));
+  b.appendChild(el('span','dot'));
   return b;
 }
 function find(id){for(var i=0;i<risks.length;i++)if(risks[i].id===id)return risks[i];return null;}
@@ -364,13 +304,11 @@ function find(id){for(var i=0;i<risks.length;i++)if(risks[i].id===id)return risk
 var dlg=$('dlg'),cur=null,curNew=false;
 function fill(sel,arr){arr.forEach(function(t,i){var o=el('option',null,t);o.value=i;sel.appendChild(o);});}
 fill($('fImpact'),IMPACT);fill($('fProb'),PROB);fill($('fStatus'),STATUS);
-fill($('fIcon'),ICONS.map(function(i){return i[0]+'  '+i[1];}));
 
 function openDlg(k,isNew){
   cur=k;curNew=isNew;
   $('dlgTitle').textContent=isNew?'Risiko hinzufügen':'Risiko bearbeiten';
   $('fTitle').value=k.title;$('fImpact').value=k.impactIndex;$('fProb').value=k.probabilityIndex;
-  var ii=ICONS.length-1;ICONS.forEach(function(x,i){if(x[0]===k.icon)ii=i;});$('fIcon').value=ii;
   $('fWs').checked=!!k.workerSafety;$('fDesc').value=k.description||'';$('fOwner').value=k.owner||'';
   $('fDue').value=k.due||'';$('fMeasures').value=k.measures||'';
   $('fStatus').value=Math.max(0,STATUS.indexOf(k.status));
@@ -385,7 +323,7 @@ $('frm').addEventListener('submit',function(){
   if(!cur)return;
   cur.title=$('fTitle').value.trim()||'Unbenanntes Risiko';
   cur.impactIndex=+$('fImpact').value;cur.probabilityIndex=+$('fProb').value;
-  cur.icon=ICONS[+$('fIcon').value][0];cur.workerSafety=$('fWs').checked;
+  cur.workerSafety=$('fWs').checked;
   cur.description=$('fDesc').value.trim();cur.owner=$('fOwner').value.trim();cur.due=$('fDue').value.trim();
   cur.measures=$('fMeasures').value.trim();cur.status=STATUS[+$('fStatus').value];
   if(curNew)risks.push(cur);
