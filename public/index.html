@@ -29,7 +29,7 @@
 <meta name="twitter:description" content="Risikomatrix mit vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben.">
 <meta name="twitter:image" content="https://bcm.voetter.work/og.png">
 <style>
-:root{--purple:#7030A0;--purple-d:#5B2585;--purple-soft:#F1E8F8;--grey:#E5E7EB;--grey-soft:#F3F4F6;
+:root{--orange:#F97316;--purple:#7030A0;--purple-d:#5B2585;--purple-soft:#F1E8F8;--grey:#E5E7EB;--grey-soft:#F3F4F6;
   --text:#111827;--muted:#4B5563;--line:#A3A3A3;--bg:#F5F5F5;--panel:#fff;--lab:clamp(54px,15vw,150px)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -69,7 +69,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .card:hover{background:var(--purple-soft)}
 .card .t{font-size:clamp(9px,2.3vw,14px);line-height:1.2;text-align:center;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere;max-width:100%}
 .card .dot{width:clamp(16px,4vw,26px);height:clamp(16px,4vw,26px);border-radius:50%;background:var(--purple);flex:none}
+.card.ws .dot,.li.ws .dot,.lg i.o{background:var(--orange)}
 .card.done .dot{background:#fff;box-shadow:inset 0 0 0 3px var(--purple)}
+.card.ws.done .dot,.li.ws.done .dot{background:#fff;box-shadow:inset 0 0 0 3px var(--orange)}
+.lg{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;margin-top:clamp(8px,1.6vw,16px);font-size:clamp(9.5px,2.2vw,13.5px)}
+.lg i{display:inline-block;width:1em;height:1em;border-radius:50%;background:var(--purple);vertical-align:-.12em;margin-right:.4em}
 .card.done .t{color:#6B7280}
 .card.lift{opacity:.3}
 .ghost{position:fixed;z-index:50;pointer-events:none;width:110px;background:#fff;padding:8px 6px;box-shadow:0 10px 24px rgba(0,0,0,.28);transform:translate(-50%,-60%) rotate(-2deg)}
@@ -104,7 +108,7 @@ label{display:block;font-weight:700;font-size:13px;color:#374151;margin:10px 0 4
 input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:10px;border:1px solid #D1D5DB;border-radius:10px;background:#fff;color:var(--text)}
 textarea{resize:vertical}
 .chk{display:flex;gap:10px;align-items:center;font-weight:600;margin:14px 0 4px}
-.chk input{width:22px;height:22px;accent-color:var(--purple);flex:none}
+.chk input{width:22px;height:22px;accent-color:var(--orange);flex:none}
 .actions{display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--grey);flex-wrap:wrap}
 .actions .sp{flex:1}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;max-width:90vw}
@@ -151,6 +155,7 @@ textarea{resize:vertical}
       <img class="logo" src="icon.svg" width="96" height="96" alt="Logo Risikoanalyse">
     </div>
     <div class="matrix" id="matrix"></div>
+    <div class="lg"><span><i class="o"></i>Arbeitnehmerschutz / Vorschriften</span><span><i></i>andere Unternehmensrisiken</span></div>
   </main>
   <p class="stats" id="stats"></p>
   <p class="hint">Risiko antippen zum Bearbeiten. <span class="full">Mit der Maus ziehen, um es in ein anderes Feld zu verschieben.</span><span class="short">Gedrückt halten und ziehen zum Verschieben. Im Querformat wird die Matrix größer.</span></p>
@@ -183,7 +188,7 @@ textarea{resize:vertical}
       <select id="fImpact"></select>
       <label for="fProb">Eintrittswahrscheinlichkeit / Aktualität</label>
       <select id="fProb"></select>
-      <label class="chk"><input type="checkbox" id="fWs"> Arbeitnehmerschutz / Vorschriften</label>
+      <label class="chk"><input type="checkbox" id="fWs"> Arbeitnehmerschutz / Vorschriften (orange)</label>
       <label for="fDesc">Beschreibung</label>
       <textarea id="fDesc" rows="3"></textarea>
       <label for="fOwner">Verantwortlich</label>
@@ -278,7 +283,7 @@ function renderList(){
   items.sort(function(a,b){return (4-b.impactIndex)*(b.probabilityIndex+1)-(4-a.impactIndex)*(a.probabilityIndex+1);});
   if(!items.length){list.appendChild(el('p','empty','Keine Risiken in dieser Auswahl.'));return;}
   items.forEach(function(k){
-    var b=el('button','li'+(k.status==='erledigt'?' done':''));b.type='button';b.dataset.id=k.id;
+    var b=el('button','li'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));b.type='button';b.dataset.id=k.id;
     b.appendChild(el('span','dot'));
     b.appendChild(el('span','t',k.title));
     b.appendChild(el('span','st s'+Math.max(0,STATUS.indexOf(k.status)),k.status||'offen'));
@@ -292,7 +297,7 @@ $('filters').addEventListener('click',function(e){
   Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('on',x===c);});renderList();
 });
 function card(k){
-  var b=el('button','card'+(k.status==='erledigt'?' done':''));
+  var b=el('button','card'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));
   b.type='button';b.dataset.id=k.id;
   b.appendChild(el('span','t',k.title));
   b.appendChild(el('span','dot'));
