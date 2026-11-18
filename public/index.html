@@ -8,7 +8,26 @@
 <meta name="theme-color" content="#F97316">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://bcm.voetter.work/">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Risikoanalyse">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_AT">
+<meta property="og:site_name" content="Risikoanalyse">
+<meta property="og:url" content="https://bcm.voetter.work/">
+<meta property="og:title" content="Risikoanalyse für Unternehmen">
+<meta property="og:description" content="Risikomatrix mit 20 vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben. Kostenlos, ohne Anmeldung – die Daten bleiben am Gerät.">
+<meta property="og:image" content="https://bcm.voetter.work/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo und Risikomatrix der Risikoanalyse für Unternehmen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Risikoanalyse für Unternehmen">
+<meta name="twitter:description" content="Risikomatrix mit 20 vorgegebenen Feldern: bewerten, verschieben, Maßnahmen festlegen, als PDF ausgeben.">
+<meta name="twitter:image" content="https://bcm.voetter.work/og.png">
 <style>
 :root{
   --orange:#F97316;--orange-soft:#FFEDD5;--grey:#E5E7EB;--grey-soft:#F3F4F6;
@@ -23,7 +42,8 @@ body{margin:0;background:var(--bg);color:var(--text);
 header.top{background:var(--panel);border-radius:18px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 header.top h1{font-size:22px;line-height:1.2;margin:0}
 header.top p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
-.head-text{flex:1 1 320px}
+.head-text{flex:1 1 240px;min-width:0}
+.logo{width:48px;height:48px;border-radius:12px;flex:none}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
 .badge{border-radius:999px;padding:6px 12px;font-weight:700;font-size:13.5px;background:var(--grey-soft);white-space:nowrap}
 .badge.o{background:var(--orange-soft);color:#C2410C}
@@ -77,11 +97,67 @@ textarea{resize:vertical}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;max-width:90vw}
 .toast.show{opacity:1}
 :focus-visible{outline:3px solid #2563EB;outline-offset:2px}
-@media (max-width:600px){.corner{font-size:10.5px;padding:4px}.wrap{padding:8px}header.top h1{font-size:19px}.matrix{grid-template-columns:112px repeat(5,minmax(150px,1fr));min-width:900px}.ih{font-size:12px;padding:8px}.ih .ic{display:none}}
+.short{display:none}
+.listsec{display:none}
+.listhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 2px 8px}
+.listhead h2{font-size:16px;margin:0}
+.filters{display:flex;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;min-height:36px}
+.chip.on{background:var(--text);border-color:var(--text);color:#fff}
+.li{display:grid;grid-template-columns:40px 1fr auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--panel);
+  border:1px solid var(--grey);border-left:5px solid #9CA3AF;border-radius:12px;padding:9px 10px;margin-bottom:6px;min-height:56px}
+.li.ws{border-left-color:var(--orange)}
+.li.done{opacity:.6}
+.li .ic{grid-row:1/3;width:40px;height:40px;border-radius:50%;background:var(--grey-soft);display:grid;place-items:center;font-size:21px}
+.li.ws .ic{background:var(--orange-soft)}
+.li .t{font-weight:700;font-size:14.5px;line-height:1.25;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere}
+.li .m{grid-column:2;font-size:12px;color:var(--muted)}
+.li .st{grid-row:1/3;grid-column:3;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 8px;background:var(--grey-soft);white-space:nowrap}
+.li .st.s1{background:#DBEAFE;color:#1E40AF}.li .st.s2{background:#DCFCE7;color:#166534}
+.empty{color:var(--muted);font-size:13.5px;padding:10px 4px}
+@media (max-width:720px){
+  body{font-size:15px}
+  .wrap{padding:8px 8px 24px}
+  header.top{padding:12px;gap:8px 12px;border-radius:14px}
+  header.top h1{font-size:18px}
+  header.top p{display:none}
+  .logo{width:42px;height:42px}
+  .badges{flex-basis:100%}
+  .badge{font-size:12.5px;padding:5px 10px}
+  .full{display:none}.short{display:inline}
+  .toolbar{position:sticky;top:0;z-index:5;background:var(--bg);margin:6px -8px 0;padding:8px;flex-wrap:nowrap}
+  .toolbar .btn{flex:1 1 0;padding:10px 6px;font-size:14px;white-space:nowrap;min-height:46px}
+  .hint{font-size:12.5px;margin:2px 2px 8px}
+  .scroller{overflow:visible;border-radius:14px}
+  .matrix{grid-template-columns:repeat(5,minmax(0,1fr));min-width:0;gap:4px;padding:6px}
+  .corner{display:none}
+  .ph{flex-direction:column;gap:1px;padding:5px 1px;font-size:10px;line-height:1.15;text-align:center;border-radius:10px;justify-content:center}
+  .ph .ic{font-size:16px}
+  .ih{grid-column:1/-1;position:static;box-shadow:none;align-items:center;background:transparent;padding:6px 4px 0;font-size:12.5px;border-radius:0}
+  .ih .ic{font-size:15px}
+  .cell{min-height:58px;padding:4px 2px;flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:center;gap:4px;border-width:1.5px;border-radius:10px}
+  .cell:has(.card) .add{display:none}
+  .add{min-height:44px;width:100%;font-size:16px}
+  .card{display:block;width:44px;height:44px;padding:0;border-radius:50%;border-width:2px;flex:none}
+  .card.ws{border-width:2.5px}
+  .card .ic{width:100%;height:100%;background:transparent;font-size:22px}
+  .card .t,.card .m{display:none}
+  .ghost{width:60px;height:60px}
+  .ghost .ic{font-size:30px}
+  .listsec{display:block}
+  .legend{padding:10px 12px;border-radius:14px;font-size:12.5px;gap:6px 14px}
+  dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:94dvh}
+  dialog form{max-height:94dvh}
+  .actions{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+  .actions .btn{flex:1 1 auto}
+  .actions .sp{display:none}
+  .toast{bottom:calc(18px + env(safe-area-inset-bottom))}
+}
+@media (max-width:360px){.card{width:38px;height:38px}.card .ic{font-size:19px}.ph{font-size:9px}}
 @page{size:A4 landscape;margin:8mm}
 @media print{
   body{background:#fff;font-size:10px}
-  .toolbar,.hint,.add,footer,.toast{display:none!important}
+  .toolbar,.hint,.add,footer,.toast,.listsec,.logo{display:none!important}
   .wrap{max-width:none;padding:0}
   header.top{padding:0 0 6px}
   header.top h1{font-size:18px}
@@ -101,6 +177,7 @@ textarea{resize:vertical}
 <body>
 <div class="wrap">
   <header class="top">
+    <img class="logo" src="icon.svg" width="48" height="48" alt="Logo Risikoanalyse">
     <div class="head-text">
       <h1>Risikoanalyse für Unternehmen</h1>
       <p>Risikomatrix mit 20 vorgegebenen Feldern – antippen, bewerten, verschieben, Maßnahmen festlegen.</p>
@@ -113,12 +190,24 @@ textarea{resize:vertical}
 
   <div class="toolbar">
     <button class="btn primary" id="btnAdd" type="button">+ Risiko</button>
-    <button class="btn" id="btnPdf" type="button">A4-PDF / Drucken</button>
-    <button class="btn" id="btnReset" type="button">Vorlage wiederherstellen</button>
+    <button class="btn" id="btnPdf" type="button"><span class="full">A4-PDF / Drucken</span><span class="short">PDF</span></button>
+    <button class="btn" id="btnReset" type="button"><span class="full">Vorlage wiederherstellen</span><span class="short">Zurücksetzen</span></button>
   </div>
-  <p class="hint">Feld antippen zum Bearbeiten. Mit der Maus ziehen oder am Handy gedrückt halten und ziehen, um ein Risiko zu verschieben.</p>
+  <p class="hint"><span class="full">Feld antippen zum Bearbeiten. Mit der Maus ziehen, um ein Risiko zu verschieben.</span><span class="short">Symbol antippen zum Bearbeiten. Gedrückt halten und ziehen zum Verschieben.</span></p>
 
   <div class="scroller"><div class="matrix" id="matrix"></div></div>
+
+  <section class="listsec" aria-label="Risikoliste">
+    <div class="listhead">
+      <h2>Risikoliste</h2>
+      <div class="filters" id="filters">
+        <button type="button" class="chip on" data-f="all">Alle</button>
+        <button type="button" class="chip" data-f="ws">Orange</button>
+        <button type="button" class="chip" data-f="open">Offen</button>
+      </div>
+    </div>
+    <div id="list"></div>
+  </section>
 
   <section class="legend" aria-label="Legende">
     <b>Legende</b>
@@ -174,6 +263,8 @@ var KEY='risikoanalyse_risks_v1';
 var IMPACT=['Gefährdung für das Gesamtsystem','Gefahr für das Teilsystem','Signifikante Wirkung im Teilsystem','Schwache bzw. indirekte Wirkung über andere Risiken'];
 var IMPACT_IC=['🌍','🧩','🛡️','〰️'];
 var PROB=['erkannt','möglich','wahrscheinlich','sehr wahrscheinlich','aktuell'];
+var PROB_S=['erkannt','möglich','wahr­scheinl.','sehr wahr­scheinl.','aktuell'];
+var IMPACT_S=['Gesamtsystem','Teilsystem','signifikant','schwach'];
 var PROB_IC=['👁️','❓','🎯','❗','⏱️'];
 var STATUS=['offen','in Arbeit','erledigt'];
 var ICONS=[['🌪️','Natur / Krise'],['⚡','Blackout'],['🛡️','Reserve / Schutz'],['☁️','Digitale Infrastruktur'],['🔐','Cyber / Daten'],['⚖️','Vorschriften'],['📦','Lieferkette'],['🧑‍💼','Schlüsselkräfte'],['👥','Team / Fachkräfte'],['🧾','Forderungsausfall'],['⛑️','Tödlicher Arbeitsunfall'],['🩹','Arbeitsunfall'],['✋','Übergriff / Gewalt'],['🧠','Psychosoziale Krise'],['📈','Marktveränderung'],['⚙️','Anlage / Betrieb'],['📉','Marktrückgang'],['🚑','Medizinischer Notfall'],['🤝','Verlust / Krise'],['🔋','Motivation'],['⚠️','Allgemeines Risiko']];
@@ -220,7 +311,7 @@ function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cl
 function render(){
   matrix.textContent='';
   var c=el('div','corner');c.appendChild(el('span',null,'Wahrscheinlichkeit →'));c.appendChild(el('span',null,'Auswirkung ↓'));matrix.appendChild(c);
-  PROB.forEach(function(p,i){var h=el('div','ph');h.appendChild(el('span','ic',PROB_IC[i]));h.appendChild(el('span',null,p));matrix.appendChild(h);});
+  PROB.forEach(function(p,i){var h=el('div','ph');h.appendChild(el('span','ic',PROB_IC[i]));h.appendChild(el('span','full',p));h.appendChild(el('span','short',PROB_S[i]));matrix.appendChild(h);});
   for(var r=0;r<4;r++){
     var ih=el('div','ih');ih.appendChild(el('span','ic',IMPACT_IC[r]));ih.appendChild(el('span',null,IMPACT[r]));matrix.appendChild(ih);
     for(var col=0;col<5;col++){
@@ -237,10 +328,31 @@ function render(){
   $('bTotal').textContent='Risiken '+risks.length;
   $('bOrange').textContent='Orange '+ws;
   $('stats').textContent='Kritische Felder: '+crit+' · offene Maßnahmen: '+open;
+  renderList();
 }
+var filter='all';
+function renderList(){
+  var list=$('list');list.textContent='';
+  var items=risks.filter(function(k){return filter==='ws'?k.workerSafety:filter==='open'?k.status!=='erledigt':true;});
+  items.sort(function(a,b){return (4-b.impactIndex)*(b.probabilityIndex+1)-(4-a.impactIndex)*(a.probabilityIndex+1);});
+  if(!items.length){list.appendChild(el('p','empty','Keine Risiken in dieser Auswahl.'));return;}
+  items.forEach(function(k){
+    var b=el('button','li'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));b.type='button';b.dataset.id=k.id;
+    b.appendChild(el('span','ic',k.icon||'⚠️'));
+    b.appendChild(el('span','t',k.title));
+    b.appendChild(el('span','st s'+Math.max(0,STATUS.indexOf(k.status)),k.status||'offen'));
+    b.appendChild(el('span','m',IMPACT_S[k.impactIndex]+' · '+PROB[k.probabilityIndex]+(k.due?' · bis '+k.due:'')));
+    list.appendChild(b);
+  });
+}
+$('list').addEventListener('click',function(e){var b=e.target.closest('.li');if(b){var k=find(b.dataset.id);if(k)openDlg(k,false);}});
+$('filters').addEventListener('click',function(e){
+  var c=e.target.closest('.chip');if(!c)return;filter=c.dataset.f;
+  Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('on',x===c);});renderList();
+});
 function card(k){
   var b=el('button','card'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));
-  b.type='button';b.dataset.id=k.id;
+  b.type='button';b.dataset.id=k.id;b.title=k.title;b.setAttribute('aria-label',k.title);
   b.appendChild(el('span','ic',k.icon||'⚠️'));
   b.appendChild(el('span','t',k.title));
   b.appendChild(el('span','m',(k.workerSafety?'Arbeitnehmerschutz':'Unternehmen')+' · '+(k.status||'offen')));
