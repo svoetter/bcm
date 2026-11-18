@@ -1,0 +1,12 @@
+{
+  "name": "Risikoanalyse für Unternehmen",
+  "short_name": "Risikoanalyse",
+  "lang": "de",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#F97316",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

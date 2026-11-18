@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Risikoanalyse für Unternehmen</title>
+<meta name="description" content="Risikomatrix für Unternehmen (BCM): 20 vorgegebene Risikofelder, eigene Risiken, Maßnahmen und PDF-Export. Daten bleiben lokal im Browser.">
+<meta name="theme-color" content="#F97316">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{
+  --orange:#F97316;--orange-soft:#FFEDD5;--grey:#E5E7EB;--grey-soft:#F3F4F6;
+  --text:#111827;--muted:#4B5563;--line:#D1D5DB;--bg:#FAFAFA;--panel:#fff;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.wrap{max-width:1320px;margin:0 auto;padding:14px}
+header.top{background:var(--panel);border-radius:18px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+header.top h1{font-size:22px;line-height:1.2;margin:0}
+header.top p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.head-text{flex:1 1 320px}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{border-radius:999px;padding:6px 12px;font-weight:700;font-size:13.5px;background:var(--grey-soft);white-space:nowrap}
+.badge.o{background:var(--orange-soft);color:#C2410C}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 14px;font-weight:600;min-height:44px}
+.btn:hover{background:var(--grey-soft)}
+.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.primary:hover{background:#EA580C}
+.btn.danger{color:#B91C1C;border-color:#FCA5A5}
+.hint{color:#6B7280;font-size:13px;margin:4px 2px 10px}
+.scroller{overflow-x:auto;border-radius:18px;background:var(--panel);-webkit-overflow-scrolling:touch}
+.matrix{display:grid;grid-template-columns:150px repeat(5,minmax(158px,1fr));gap:8px;padding:10px;min-width:980px}
+.corner,.ph,.ih{background:var(--grey-soft);border-radius:14px;padding:8px 10px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.corner{background:transparent;font-size:12px;color:var(--muted);font-weight:600;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+.ph .ic,.ih .ic{font-size:20px;flex:none}
+.ih{position:sticky;left:10px;z-index:2;align-items:flex-start;box-shadow:6px 0 8px -6px rgba(0,0,0,.12)}
+.corner{position:sticky;left:10px;z-index:2;background:var(--panel)}
+.cell{border:2px solid var(--line);border-radius:14px;min-height:118px;padding:6px;display:flex;flex-direction:column;gap:5px;background:#fff}
+.cell.over{border-color:var(--orange);background:#FFF7ED}
+.add{flex:1;min-height:32px;border:0;background:transparent;color:#9CA3AF;font-size:18px;border-radius:10px}
+.add:hover,.add:focus-visible{background:var(--grey-soft);color:var(--text)}
+.card{display:grid;grid-template-columns:34px 1fr;gap:4px 8px;align-items:center;text-align:left;width:100%;
+  border:2px solid #9CA3AF;background:var(--grey);border-radius:12px;padding:7px 8px;touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.card.ws{border:3px solid var(--orange);background:var(--orange-soft)}
+.card .ic{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:19px}
+.card .t{font-weight:700;font-size:13px;line-height:1.2;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
+.card .m{grid-column:1/-1;font-size:11px;color:var(--muted)}
+.card.done{opacity:.6}
+.card.lift{opacity:.35}
+.ghost{position:fixed;z-index:50;pointer-events:none;width:170px;box-shadow:0 10px 24px rgba(0,0,0,.25);transform:translate(-50%,-50%) rotate(-2deg)}
+.legend{background:var(--panel);border-radius:18px;padding:12px 18px;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;font-size:13.5px}
+.legend b{font-size:15px}
+.sw{display:inline-block;width:30px;height:20px;border-radius:7px;border:2px solid #9CA3AF;background:var(--grey);vertical-align:-5px;margin-right:6px}
+.sw.o{border-color:var(--orange);background:var(--orange-soft)}
+.legend .stats{flex-basis:100%;color:var(--muted);font-size:13px}
+footer{color:var(--muted);font-size:12.5px;margin:16px 4px 8px;line-height:1.6}
+footer a{color:inherit}
+dialog{border:0;border-radius:18px;padding:0;width:min(560px,calc(100vw - 20px));max-height:calc(100dvh - 20px);color:var(--text)}
+dialog::backdrop{background:rgba(17,24,39,.5)}
+dialog form{display:flex;flex-direction:column;max-height:calc(100dvh - 20px)}
+dialog h2{margin:0;padding:16px 18px 6px;font-size:19px}
+.fields{padding:0 18px 8px;overflow-y:auto}
+label{display:block;font-weight:700;font-size:13px;color:#374151;margin:10px 0 4px}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+textarea{resize:vertical}
+.chk{display:flex;gap:10px;align-items:center;font-weight:600;margin:14px 0 4px}
+.chk input{width:22px;height:22px;accent-color:var(--orange);flex:none}
+.actions{display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--grey);flex-wrap:wrap}
+.actions .sp{flex:1}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;max-width:90vw}
+.toast.show{opacity:1}
+:focus-visible{outline:3px solid #2563EB;outline-offset:2px}
+@media (max-width:600px){.corner{font-size:10.5px;padding:4px}.wrap{padding:8px}header.top h1{font-size:19px}.matrix{grid-template-columns:112px repeat(5,minmax(150px,1fr));min-width:900px}.ih{font-size:12px;padding:8px}.ih .ic{display:none}}
+@page{size:A4 landscape;margin:8mm}
+@media print{
+  body{background:#fff;font-size:10px}
+  .toolbar,.hint,.add,footer,.toast{display:none!important}
+  .wrap{max-width:none;padding:0}
+  header.top{padding:0 0 6px}
+  header.top h1{font-size:18px}
+  .scroller{overflow:visible}
+  .matrix{min-width:0;grid-template-columns:105px repeat(5,1fr);gap:4px;padding:0}
+  .ih,.corner{position:static;box-shadow:none}
+  .cell{min-height:96px;padding:4px;border-width:1px;break-inside:avoid}
+  .card{padding:4px 5px;grid-template-columns:24px 1fr}
+  .card .ic{width:24px;height:24px;font-size:14px}
+  .card .t{font-size:10px}.card .m{font-size:8px}
+  .ph,.ih{font-size:10px;padding:5px}
+  .legend{padding:6px 0;margin-top:6px;font-size:10px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="head-text">
+      <h1>Risikoanalyse für Unternehmen</h1>
+      <p>Risikomatrix mit 20 vorgegebenen Feldern – antippen, bewerten, verschieben, Maßnahmen festlegen.</p>
+    </div>
+    <div class="badges">
+      <span class="badge" id="bTotal">Risiken 0</span>
+      <span class="badge o" id="bOrange">Orange 0</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn primary" id="btnAdd" type="button">+ Risiko</button>
+    <button class="btn" id="btnPdf" type="button">A4-PDF / Drucken</button>
+    <button class="btn" id="btnReset" type="button">Vorlage wiederherstellen</button>
+  </div>
+  <p class="hint">Feld antippen zum Bearbeiten. Mit der Maus ziehen oder am Handy gedrückt halten und ziehen, um ein Risiko zu verschieben.</p>
+
+  <div class="scroller"><div class="matrix" id="matrix"></div></div>
+
+  <section class="legend" aria-label="Legende">
+    <b>Legende</b>
+    <span><i class="sw o"></i>Orange: Arbeitnehmerschutz / Verstoß gegen Vorschriften</span>
+    <span><i class="sw"></i>Grau: andere Unternehmensrisiken</span>
+    <span class="stats" id="stats"></span>
+  </section>
+
+  <footer>
+    Alle Eingaben bleiben lokal in diesem Browser gespeichert – es werden keine Daten an einen Server übertragen.<br>
+    <b>Impressum:</b> Stefan Vötter, AT-5431 Kuchl, Kellau 198 · <a href="mailto:Stefan@voetter.net">Stefan@voetter.net</a> · <a href="tel:+436642431314">0664 2431314</a> · <a href="https://voetter.info" rel="noopener">Voetter.info</a>
+  </footer>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="frm">
+    <h2 id="dlgTitle">Risiko bearbeiten</h2>
+    <div class="fields">
+      <label for="fTitle">Titel</label>
+      <input type="text" id="fTitle" maxlength="80" autocomplete="off">
+      <label for="fImpact">Auswirkung</label>
+      <select id="fImpact"></select>
+      <label for="fProb">Eintrittswahrscheinlichkeit / Aktualität</label>
+      <select id="fProb"></select>
+      <label for="fIcon">Symbol</label>
+      <select id="fIcon"></select>
+      <label class="chk"><input type="checkbox" id="fWs"> Arbeitnehmerschutz / Vorschriften: Orange hinterlegen</label>
+      <label for="fDesc">Beschreibung</label>
+      <textarea id="fDesc" rows="3"></textarea>
+      <label for="fOwner">Verantwortlich</label>
+      <input type="text" id="fOwner" autocomplete="off">
+      <label for="fDue">Termin / Frist</label>
+      <input type="text" id="fDue" placeholder="z. B. 31.12.2026" autocomplete="off">
+      <label for="fMeasures">Maßnahmen</label>
+      <textarea id="fMeasures" rows="4"></textarea>
+      <label for="fStatus">Status</label>
+      <select id="fStatus"></select>
+    </div>
+    <div class="actions">
+      <button class="btn danger" type="button" id="btnDel">Löschen</button>
+      <span class="sp"></span>
+      <button class="btn" type="button" id="btnCancel">Abbrechen</button>
+      <button class="btn primary" type="submit">Speichern</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var KEY='risikoanalyse_risks_v1';
+var IMPACT=['Gefährdung für das Gesamtsystem','Gefahr für das Teilsystem','Signifikante Wirkung im Teilsystem','Schwache bzw. indirekte Wirkung über andere Risiken'];
+var IMPACT_IC=['🌍','🧩','🛡️','〰️'];
+var PROB=['erkannt','möglich','wahrscheinlich','sehr wahrscheinlich','aktuell'];
+var PROB_IC=['👁️','❓','🎯','❗','⏱️'];
+var STATUS=['offen','in Arbeit','erledigt'];
+var ICONS=[['🌪️','Natur / Krise'],['⚡','Blackout'],['🛡️','Reserve / Schutz'],['☁️','Digitale Infrastruktur'],['🔐','Cyber / Daten'],['⚖️','Vorschriften'],['📦','Lieferkette'],['🧑‍💼','Schlüsselkräfte'],['👥','Team / Fachkräfte'],['🧾','Forderungsausfall'],['⛑️','Tödlicher Arbeitsunfall'],['🩹','Arbeitsunfall'],['✋','Übergriff / Gewalt'],['🧠','Psychosoziale Krise'],['📈','Marktveränderung'],['⚙️','Anlage / Betrieb'],['📉','Marktrückgang'],['🚑','Medizinischer Notfall'],['🤝','Verlust / Krise'],['🔋','Motivation'],['⚠️','Allgemeines Risiko']];
+
+function defaults(){
+  var d=[
+  ['r01','Naturkatastrophen / Krieg',0,0,'🌪️',false,'Externe Lage mit möglicher Wirkung auf Standort, Lieferfähigkeit und Geschäftsbetrieb.'],
+  ['r02','Blackout / Strommangellage',0,1,'⚡',false,'Stromausfall oder Energiemangel mit Auswirkung auf kritische Prozesse.'],
+  ['r03','Reserve / strategische Ausfälle',0,2,'🛡️',false,'Fehlende Redundanz, Ersatzressourcen oder strategische Alternativen.'],
+  ['r04','Kritische Störung digitaler Infrastruktur',0,3,'☁️',false,'Ausfall zentraler Systeme, Netzwerke, Cloud- oder Kommunikationsdienste.'],
+  ['r05','Cyberangriff / Datenverlust',0,4,'🔐',false,'Angriff, Verschlüsselung, Datenabfluss oder Verlust geschäftskritischer Daten.'],
+  ['r06','Verstoß gegen Vorschriften',1,0,'⚖️',true,'Rechtliche oder organisatorische Nichteinhaltung, inklusive Arbeitnehmerschutz-Vorgaben.'],
+  ['r07','Lieferkettenunterbrechung',1,1,'📦',false,'Ausfall von Lieferanten, Material, Logistik oder externen Partnern.'],
+  ['r08','Personalverlust Schlüsselkräfte',1,2,'🧑‍💼',true,'Ausfall, Kündigung oder langfristige Abwesenheit kritischer Mitarbeitender.'],
+  ['r09','Fachkräftemangel',1,3,'👥',false,'Schwierigkeit, qualifiziertes Personal zu gewinnen oder zu halten.'],
+  ['r10','Forderungsausfall',1,4,'🧾',false,'Ausfall offener Forderungen oder Zahlungsschwierigkeiten wichtiger Kunden.'],
+  ['r11','Tödlicher Arbeitsunfall',2,0,'⛑️',true,'Schwerstes Ereignis im Bereich Arbeitssicherheit und Organisation.'],
+  ['r12','Arbeitsunfall mit Personenschaden',2,1,'🩹',true,'Unfall mit Verletzung, Ausfallzeit oder medizinischer Behandlung.'],
+  ['r13','Gewalt & sexuelle Übergriffe',2,2,'✋',true,'Grenzverletzungen, Gewalt, Belästigung oder Übergriffe am Arbeitsplatz.'],
+  ['r14','Psychosoziale Akutkrisen',2,3,'🧠',true,'Akute psychische Belastung, Konflikt- oder Krisenlage im Arbeitsumfeld.'],
+  ['r15','Marktveränderung',2,4,'📈',false,'Veränderte Nachfrage, Wettbewerb, Preise oder regulatorische Rahmenbedingungen.'],
+  ['r16','Anlagenausfall',3,0,'⚙️',false,'Ausfall einer Anlage, Maschine oder technischen Ressource.'],
+  ['r17','Marktrückgang',3,1,'📉',false,'Rückgang von Umsatz, Nachfrage oder Marktanteilen.'],
+  ['r18','Medizinischer Notfall',3,2,'🚑',true,'Akuter Notfall bei Mitarbeitenden, Gästen oder Dritten am Standort.'],
+  ['r19','Verlust- bzw. Lebensveränderungskrisen',3,3,'🤝',true,'Krisen durch Trauer, Trennung, Pflegebelastung oder einschneidende Lebensereignisse.'],
+  ['r20','Motivationsprobleme Mitarbeiter',3,4,'🔋',true,'Sinkende Motivation, Bindung, Arbeitszufriedenheit oder Leistungsbereitschaft.']];
+  return d.map(function(a){return {id:a[0],title:a[1],impactIndex:a[2],probabilityIndex:a[3],icon:a[4],workerSafety:a[5],description:a[6],predefined:true,owner:'',due:'',measures:'',status:'offen'};});
+}
+
+var risks=load();
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(raw){var a=JSON.parse(raw);if(Array.isArray(a)&&a.length)return a;}
+  }catch(e){}
+  return defaults();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(risks));}catch(e){toast('Speichern im Browser nicht möglich');}}
+
+var $=function(id){return document.getElementById(id);};
+var matrix=$('matrix');
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+
+function render(){
+  matrix.textContent='';
+  var c=el('div','corner');c.appendChild(el('span',null,'Wahrscheinlichkeit →'));c.appendChild(el('span',null,'Auswirkung ↓'));matrix.appendChild(c);
+  PROB.forEach(function(p,i){var h=el('div','ph');h.appendChild(el('span','ic',PROB_IC[i]));h.appendChild(el('span',null,p));matrix.appendChild(h);});
+  for(var r=0;r<4;r++){
+    var ih=el('div','ih');ih.appendChild(el('span','ic',IMPACT_IC[r]));ih.appendChild(el('span',null,IMPACT[r]));matrix.appendChild(ih);
+    for(var col=0;col<5;col++){
+      var cell=el('div','cell');cell.dataset.row=r;cell.dataset.col=col;
+      risks.forEach(function(k){if(k.impactIndex===r&&k.probabilityIndex===col)cell.appendChild(card(k));});
+      var add=el('button','add','+');add.type='button';add.dataset.add='1';
+      add.setAttribute('aria-label','Risiko hinzufügen: '+IMPACT[r]+', '+PROB[col]);
+      cell.appendChild(add);
+      matrix.appendChild(cell);
+    }
+  }
+  var ws=0,crit=0,open=0;
+  risks.forEach(function(k){if(k.workerSafety)ws++;if(k.impactIndex<=1&&k.probabilityIndex>=2)crit++;if(k.status!=='erledigt')open++;});
+  $('bTotal').textContent='Risiken '+risks.length;
+  $('bOrange').textContent='Orange '+ws;
+  $('stats').textContent='Kritische Felder: '+crit+' · offene Maßnahmen: '+open;
+}
+function card(k){
+  var b=el('button','card'+(k.workerSafety?' ws':'')+(k.status==='erledigt'?' done':''));
+  b.type='button';b.dataset.id=k.id;
+  b.appendChild(el('span','ic',k.icon||'⚠️'));
+  b.appendChild(el('span','t',k.title));
+  b.appendChild(el('span','m',(k.workerSafety?'Arbeitnehmerschutz':'Unternehmen')+' · '+(k.status||'offen')));
+  return b;
+}
+function find(id){for(var i=0;i<risks.length;i++)if(risks[i].id===id)return risks[i];return null;}
+
+/* ---------- Dialog ---------- */
+var dlg=$('dlg'),cur=null,curNew=false;
+function fill(sel,arr){arr.forEach(function(t,i){var o=el('option',null,t);o.value=i;sel.appendChild(o);});}
+fill($('fImpact'),IMPACT);fill($('fProb'),PROB);fill($('fStatus'),STATUS);
+fill($('fIcon'),ICONS.map(function(i){return i[0]+'  '+i[1];}));
+
+function openDlg(k,isNew){
+  cur=k;curNew=isNew;
+  $('dlgTitle').textContent=isNew?'Risiko hinzufügen':'Risiko bearbeiten';
+  $('fTitle').value=k.title;$('fImpact').value=k.impactIndex;$('fProb').value=k.probabilityIndex;
+  var ii=ICONS.length-1;ICONS.forEach(function(x,i){if(x[0]===k.icon)ii=i;});$('fIcon').value=ii;
+  $('fWs').checked=!!k.workerSafety;$('fDesc').value=k.description||'';$('fOwner').value=k.owner||'';
+  $('fDue').value=k.due||'';$('fMeasures').value=k.measures||'';
+  $('fStatus').value=Math.max(0,STATUS.indexOf(k.status));
+  $('btnDel').hidden=isNew||k.predefined;
+  dlg.showModal();
+  if(isNew){$('fTitle').focus();$('fTitle').select();}
+}
+function blank(row,col){
+  return {id:'custom-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),title:'Neues Risiko',impactIndex:row==null?3:row,probabilityIndex:col==null?1:col,icon:'⚠️',workerSafety:false,description:'',predefined:false,owner:'',due:'',measures:'',status:'offen'};
+}
+$('frm').addEventListener('submit',function(){
+  if(!cur)return;
+  cur.title=$('fTitle').value.trim()||'Unbenanntes Risiko';
+  cur.impactIndex=+$('fImpact').value;cur.probabilityIndex=+$('fProb').value;
+  cur.icon=ICONS[+$('fIcon').value][0];cur.workerSafety=$('fWs').checked;
+  cur.description=$('fDesc').value.trim();cur.owner=$('fOwner').value.trim();cur.due=$('fDue').value.trim();
+  cur.measures=$('fMeasures').value.trim();cur.status=STATUS[+$('fStatus').value];
+  if(curNew)risks.push(cur);
+  save();render();toast('Gespeichert');
+});
+$('btnCancel').addEventListener('click',function(){dlg.close();});
+$('btnDel').addEventListener('click',function(){
+  if(!cur||cur.predefined)return;
+  if(!window.confirm('Dieses zusätzliche Risiko wirklich löschen?'))return;
+  risks=risks.filter(function(k){return k!==cur;});
+  dlg.close();save();render();toast('Gelöscht');
+});
+$('btnAdd').addEventListener('click',function(){openDlg(blank(),true);});
+$('btnPdf').addEventListener('click',function(){window.print();});
+$('btnReset').addEventListener('click',function(){
+  if(!window.confirm('Alle Änderungen auf die 20 Standardfelder zurücksetzen? Zusätzliche Risiken werden entfernt.'))return;
+  risks=defaults();save();render();toast('Vorlage wiederhergestellt');
+});
+
+/* ---------- Tippen & Ziehen ---------- */
+var drag=null,suppressClick=false;
+matrix.addEventListener('click',function(e){
+  if(suppressClick){suppressClick=false;return;}
+  var c=e.target.closest('.card');
+  if(c){var k=find(c.dataset.id);if(k)openDlg(k,false);return;}
+  var a=e.target.closest('[data-add]');
+  if(a){var cell=a.parentNode;openDlg(blank(+cell.dataset.row,+cell.dataset.col),true);}
+});
+matrix.addEventListener('pointerdown',function(e){
+  var c=e.target.closest('.card');
+  if(!c||(e.pointerType==='mouse'&&e.button!==0))return;
+  drag={card:c,id:c.dataset.id,x:e.clientX,y:e.clientY,active:false,touch:e.pointerType!=='mouse',pid:e.pointerId,timer:null};
+  if(drag.touch)drag.timer=setTimeout(function(){if(drag)startDrag(drag.x,drag.y);},380);
+});
+function startDrag(x,y){
+  drag.active=true;
+  var g=drag.card.cloneNode(true);g.classList.add('ghost');document.body.appendChild(g);drag.ghost=g;
+  drag.card.classList.add('lift');
+  if(drag.touch&&navigator.vibrate){try{navigator.vibrate(15);}catch(e){}}
+  moveDrag(x,y);
+}
+function moveDrag(x,y){
+  drag.ghost.style.left=x+'px';drag.ghost.style.top=y+'px';
+  var t=document.elementFromPoint(x,y);var cell=t&&t.closest?t.closest('.cell'):null;
+  if(drag.cell!==cell){if(drag.cell)drag.cell.classList.remove('over');if(cell)cell.classList.add('over');drag.cell=cell;}
+}
+window.addEventListener('pointermove',function(e){
+  if(!drag||e.pointerId!==drag.pid)return;
+  var dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.active){
+    if(drag.touch){if(Math.abs(dx)>10||Math.abs(dy)>10){clearTimeout(drag.timer);drag=null;}return;}
+    if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
+    startDrag(e.clientX,e.clientY);
+  }
+  moveDrag(e.clientX,e.clientY);
+});
+function endDrag(drop){
+  if(!drag)return;
+  clearTimeout(drag.timer);
+  var d=drag;drag=null;
+  if(!d.active)return;
+  suppressClick=true;setTimeout(function(){suppressClick=false;},80);
+  if(d.ghost)d.ghost.remove();
+  d.card.classList.remove('lift');
+  if(d.cell)d.cell.classList.remove('over');
+  var k=find(d.id);
+  if(drop&&d.cell&&k){
+    var r=+d.cell.dataset.row,c=+d.cell.dataset.col;
+    if(r!==k.impactIndex||c!==k.probabilityIndex){k.impactIndex=r;k.probabilityIndex=c;save();render();toast('Risiko verschoben: '+k.title);}
+  }
+}
+window.addEventListener('pointerup',function(e){if(drag&&e.pointerId===drag.pid)endDrag(true);});
+window.addEventListener('pointercancel',function(e){if(drag&&e.pointerId===drag.pid)endDrag(false);});
+document.addEventListener('touchmove',function(e){if(drag&&drag.active&&e.cancelable)e.preventDefault();},{passive:false});
+document.addEventListener('contextmenu',function(e){if(e.target.closest&&e.target.closest('.card')&&drag&&drag.touch)e.preventDefault();});
+
+var toastT;
+function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},1800);}
+
+render();
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+})();
+</script>
+</body>
+</html>

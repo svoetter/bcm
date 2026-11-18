@@ -77,3 +77,9 @@ In Android Studio:
 - Logo, Corporate Design und eigenes App-Icon
 - Optional: Cloud-Synchronisierung mit Login
 - Optional: Tablet-optimiertes Querformat
+
+## Web-Version (Cloudflare)
+
+Unter `public/` liegt eine Web-Version der Risikoanalyse (eine HTML-Datei, ohne Build-Schritt, als App installierbar).
+Sie wird über `wrangler.jsonc` als Cloudflare Worker **bcm** mit statischen Dateien veröffentlicht (`npx wrangler deploy`).
+Die Daten bleiben lokal im Browser (localStorage).
