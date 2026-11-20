@@ -138,9 +138,30 @@ textarea{resize:vertical}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="rahmen.css">
+<style>@media print{.r-top,.r-foot,.r-box,.r-skip{display:none!important}}</style>
 </head>
 <body>
+<a class="r-skip" href="#matrix">Zum Inhalt</a>
+<header class="r-top">
+  <div class="r-wrap" style="--r-max:1180px">
+    <div class="r-brand"><img src="icon.svg" alt="" width="44" height="44"><div><b>Risikoanalyse Unternehmen</b><span class="r-sub">Risikomatrix zum Ausfüllen und Drucken</span></div></div>
+    <div class="r-tools">
+      <button class="r-btn" type="button" id="r-help"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7"/><path d="M12 17h.01"/></svg>So funktioniert’s</button>
+      <button class="r-btn r-pri" type="button" id="r-share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2"/><path d="M8.6 13.4l6.8 4.2"/></svg>Teilen</button>
+    </div>
+  </div>
+</header>
 <div class="wrap">
+  <details class="r-box" id="hilfe">
+    <summary>So funktioniert’s</summary>
+    <ol class="r-steps">
+      <li><span>Mit „+ Risiko“ ein Risiko anlegen und Eintrittswahrscheinlichkeit sowie Auswirkung wählen.</span></li>
+      <li><span>Ein Risiko antippen, um es zu bearbeiten, oder in ein anderes Feld der Matrix ziehen.</span></li>
+      <li><span>Mit „A4-PDF / Drucken“ die Matrix als Blatt ausgeben. Alle Eingaben bleiben in diesem Browser gespeichert.</span></li>
+    </ol>
+  </details>
   <div class="toolbar">
     <button class="btn primary" id="btnAdd" type="button">+ Risiko</button>
     <button class="btn" id="btnPdf" type="button"><span class="full">A4-PDF / Drucken</span><span class="short">PDF</span></button>
@@ -172,11 +193,35 @@ textarea{resize:vertical}
     <div id="list"></div>
   </section>
 
-  <footer>
-    Alle Eingaben bleiben lokal in diesem Browser gespeichert – es werden keine Daten an einen Server übertragen.<br>
-    <b>Impressum:</b> Stefan Vötter, AT-5431 Kuchl, Kellau 198 · <a href="mailto:Stefan@voetter.net">Stefan@voetter.net</a> · <a href="tel:+436642431314">0664 2431314</a> · <a href="https://voetter.info" rel="noopener">Voetter.info</a>
-  </footer>
+  <details class="r-box" id="teilen">
+    <summary>Seite weitergeben</summary>
+    <div class="r-share">
+      <img src="qr.svg" alt="QR-Code zur Adresse bcm.voetter.work" width="132" height="132">
+      <div>
+        <p>QR-Code scannen oder Link weitergeben.</p>
+        <button class="r-btn r-pri" type="button" id="r-sshare" hidden>Teilen</button>
+        <button class="r-btn" type="button" id="r-copy">Link kopieren</button>
+        <p id="r-msg" role="status"></p>
+      </div>
+    </div>
+  </details>
 </div>
+
+<footer class="r-foot" style="margin:0">
+  <div class="r-wrap" style="--r-max:1180px">
+    <nav class="r-fnav" aria-label="Fußzeile">
+      <a href="#hilfe" id="r-fhelp">So funktioniert’s</a>
+      <a id="r-err" href="mailto:Stefan@voetter.net?subject=Fehler%20melden%3A%20Risikoanalyse%20Unternehmen%20%28bcm.voetter.work%29&amp;body=Seite%3A%20https%3A%2F%2Fbcm.voetter.work%2F%0A%0AWas%20stimmt%20nicht%3F%0A%0A%0AWie%20w%C3%A4re%20es%20richtig%3F%0A">Fehler melden</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="#impressum">Impressum</a>
+      <a class="r-more" href="https://book.voetter.work/">Weitere Projekte Voestify</a>
+    </nav>
+    <address class="r-imp" id="impressum"><b>Impressum</b><br>Stefan Vötter<br>AT-5431 Kuchl, Kellau 198<br><a href="mailto:Stefan@voetter.net">Stefan@voetter.net</a><br><a href="tel:+436642431314">0664 2431314</a><br><a href="https://voetter.info" rel="noopener">Voetter.info</a></address>
+    <p>Alle Eingaben bleiben lokal in diesem Browser gespeichert – es werden keine Daten an einen Server übertragen.</p>
+    <p class="r-made">Seite erstellt von <a href="https://voetter.info">voestify</a></p>
+  </div>
+</footer>
+<script src="rahmen.js"></script>
 
 <dialog id="dlg">
   <form method="dialog" id="frm">
