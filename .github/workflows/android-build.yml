@@ -23,6 +23,9 @@ jobs:
 
       - name: Android SDK einrichten
         uses: android-actions/setup-android@v3
+        with:
+          # Das alte Paket "tools" gibt es nicht mehr; ohne diese Zeile bricht der Schritt ab.
+          packages: "platform-tools"
 
       - name: Gradle einrichten
         uses: gradle/actions/setup-gradle@v4
